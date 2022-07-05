@@ -12,7 +12,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-var Logger *zap.Logger
+var Logger *zap.Logger //nolint
 
 func InitializeLogger() {
 	var err error
