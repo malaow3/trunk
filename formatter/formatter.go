@@ -52,6 +52,9 @@ type Formatter struct {
 
 	// CustomCallerFormatter - set custom formatter for caller info
 	CustomCallerFormatter func(*runtime.Frame) string
+
+	// NoNewLine - do not add new line at the end of the message
+	NoNewLine bool
 }
 
 // Format an log entry.
@@ -135,7 +138,9 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 		f.writeCaller(b, entry)
 	}
 
-	b.WriteByte('\n')
+	if !f.NoNewLine {
+		b.WriteByte('\n')
+	}
 
 	return b.Bytes(), nil
 }
