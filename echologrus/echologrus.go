@@ -41,6 +41,23 @@ func GetEchoLogger() Logrus {
 	return mylog
 }
 
+func GetEchoLoggerNoColors() Logrus {
+	mylog := Logrus{Logger}
+	mylog.SetFormatter(&formatter.Formatter{
+		HideKeys:        false,
+		FieldsOrder:     []string{"component", "category"},
+		TimestampFormat: "2006-01-02 15:04:05.000",
+		CallerFirst:     true,
+		CustomCallerFormatter: func(f *runtime.Frame) string {
+			s := strings.Split(f.Function, ".")
+			funcName := s[len(s)-1]
+			return fmt.Sprintf(" [%s:%d][%s()]", path.Base(f.File), f.Line, funcName)
+		},
+	})
+	// mylog.SetReportCaller(true)
+	return mylog
+}
+
 // Level returns logger level.
 func (l Logrus) Level() log.Lvl {
 	switch l.Logger.Level {
