@@ -40,6 +40,22 @@ func InitLogger() {
 	log.SetReportCaller(true)
 }
 
+func InitLoggerFullpath() {
+	log.SetFormatter(&formatter.Formatter{
+		HideKeys:        true,
+		FieldsOrder:     []string{"component", "category"},
+		TimestampFormat: "2006-01-02 15:04:05.000",
+		CallerFirst:     true,
+		ColorTimestamp:  true,
+		CustomCallerFormatter: func(f *runtime.Frame) string {
+			s := strings.Split(f.Function, ".")
+			funcName := s[len(s)-1]
+			return fmt.Sprintf(" [%s:%d][%s()]", f.File, f.Line, funcName)
+		},
+	})
+	log.SetReportCaller(true)
+}
+
 func InitLoggerNoColors() {
 	log.SetFormatter(&formatter.Formatter{
 		HideKeys:        true,
