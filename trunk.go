@@ -6,6 +6,7 @@ import (
 	"runtime"
 	"strings"
 
+	charmlog "github.com/charmbracelet/log"
 	"github.com/malaow3/trunk/formatter"
 	log "github.com/sirupsen/logrus"
 	"go.uber.org/zap"
@@ -76,4 +77,13 @@ func CheckErr(err error) {
 	if err != nil {
 		log.Panic(err)
 	}
+}
+
+func InitCharmLogger() {
+	charmlog.SetReportCaller(true)
+	charmlog.SetCallerFormatter(func(file string, line int, name string) string {
+		return fmt.Sprintf("%s:%d", file, line)
+	})
+	charmlog.SetLevel(charmlog.DebugLevel)
+	charmlog.SetReportTimestamp(true)
 }
